@@ -65,6 +65,10 @@ async function run() {
 }
 run();
 
+app.get("/test",(req,res)=>{
+    res.send("hello test")
+})
+
 app.use('/', (req, res) => {
     res.json({ message: "hello world" })
 })
