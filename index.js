@@ -64,7 +64,9 @@ async function run() {
 }
 run();
 
-
+app.use('/', (req, res) => {
+    res.json({ message: "hello world" })
+})
 
 // server listening -------------------------------
 app.listen(port, () => {
