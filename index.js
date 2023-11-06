@@ -75,13 +75,13 @@ async function run() {
 }
 run().catch(console.dir)
 
-// app.get("/test", (req, res) => {
-//     res.send("hello test")
-// })
+app.get("/test", (req, res) => {
+    res.send("hello test")
+})
 
-// app.use('/', (req, res) => {
-//     res.json({ message: "hello world" })
-// })
+app.use('/', (req, res) => {
+    res.json({ message: "hello world" })
+})
 
 // server listening -------------------------------
 app.listen(port, () => {
