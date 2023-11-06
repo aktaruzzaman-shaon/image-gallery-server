@@ -4,7 +4,6 @@ const app = express();
 const cors = require('cors')
 require('dotenv').config();
 const port = process.env.PORT || 5000;
-const route = express.Router();
 
 // Middleware ---------------------------------------
 app.use(cors());
@@ -29,8 +28,11 @@ async function run() {
         await client.connect();
         const imageUrlConnection = client.db("image-gallery").collection("imageUrl")
 
+        // await client.db("admin").command({ ping: 1 });
+        // console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
         //Add image in gallery -----------------------
-        route.post('/addImageUrl', async (req, res) => {
+        app.post('/addImageUrl', async (req, res) => {
             const imgeUrl = req.body;
             const result = await imageUrlConnection.insertOne(imgeUrl);
             console.log(result)
@@ -38,15 +40,22 @@ async function run() {
         })
 
         //Get image----------------------------------
-        route.get('/images', async (req, res) => {
+        // app.get('/images', async (req, res) => {
+        //     const cursor = imageUrlConnection.find({});
+        //     const allGalleryImage = await cursor.toArray();
+        //     console.log(allGalleryImage)
+        //     res.send(allGalleryImage);
+        // })
 
+        app.get('/allImage',async(req,res)=>{
             const cursor = imageUrlConnection.find({});
-            const allGalleryImage = await cursor.toArray();
-            res.send(allGalleryImage);
+            const allImages = await cursor.toArray();
+            console.log(allImages)
+            res.send(allImages)
         })
 
         // Delete images ------------------------------
-        route.delete('/deleteImages', async (req, res) => {
+        app.delete('/deleteImages', async (req, res) => {
             const data = req.body;
             console.log(data)
             let result;
@@ -64,15 +73,15 @@ async function run() {
         // await client.close();
     }
 }
-run();
+run().catch(console.dir)
 
-app.get("/test", (req, res) => {
-    res.send("hello test")
-})
+// app.get("/test", (req, res) => {
+//     res.send("hello test")
+// })
 
-app.use('/', (req, res) => {
-    res.json({ message: "hello world" })
-})
+// app.use('/', (req, res) => {
+//     res.json({ message: "hello world" })
+// })
 
 // server listening -------------------------------
 app.listen(port, () => {
