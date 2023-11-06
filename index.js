@@ -65,7 +65,7 @@ async function run() {
 }
 run();
 
-app.get("/test",(req,res)=>{
+app.get("/test", (req, res) => {
     res.send("hello test")
 })
 
