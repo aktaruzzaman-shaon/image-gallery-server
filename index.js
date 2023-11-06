@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors')
 require('dotenv').config();
 const port = process.env.PORT || 5000;
+const route = express.Router();
 
 // Middleware ---------------------------------------
 app.use(cors());
@@ -29,7 +30,7 @@ async function run() {
         const imageUrlConnection = client.db("image-gallery").collection("imageUrl")
 
         //Add image in gallery -----------------------
-        app.post('/addImageUrl', async (req, res) => {
+        route.post('/addImageUrl', async (req, res) => {
             const imgeUrl = req.body;
             const result = await imageUrlConnection.insertOne(imgeUrl);
             console.log(result)
@@ -37,7 +38,7 @@ async function run() {
         })
 
         //Get image----------------------------------
-        app.get('/images', async (req, res) => {
+        route.get('/images', async (req, res) => {
 
             const cursor = imageUrlConnection.find({});
             const allGalleryImage = await cursor.toArray();
@@ -45,7 +46,7 @@ async function run() {
         })
 
         // Delete images ------------------------------
-        app.delete('/deleteImages', async (req, res) => {
+        route.delete('/deleteImages', async (req, res) => {
             const data = req.body;
             console.log(data)
             let result;
